@@ -13,3 +13,5 @@ class Item(db.Model):  # pylint: disable=too-few-public-methods
     title = db.Column(db.String(200), nullable=False)
     price = db.Column(db.Integer, default=0)
     thumbnail = db.Column(db.String(200), nullable=True)
+    category = db.Column(db.String(200), nullable=False)
+

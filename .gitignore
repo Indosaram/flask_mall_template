@@ -148,3 +148,6 @@ cython_debug/
 
 # DB
 *.db
+
+.DS_Store
+.vscode/

@@ -2,11 +2,13 @@
 import json
 
 from flask import Blueprint, request
+from flask_cors import CORS, cross_origin
 
 from model.item import Item, db
 
 
 api = Blueprint("item", __name__, url_prefix="/item")
+CORS(api)
 
 
 @api.route("/register", methods=["POST"])
@@ -25,10 +27,14 @@ def register():
 
 
 @api.route("/get", methods=["GET"])
+@cross_origin()
 def get():
     """get query result of an item"""
-    query = json.loads(request.data)
-    items = db.session.query(Item).filter(Item.title == query["title"]).all()
+    category = request.args.get("category")
+    if category:
+        items = db.session.query(Item).filter(Item.category == category).all()
+    else:
+        items = db.session.query(Item).all()
 
     results = []
     for item in items:
@@ -38,6 +44,7 @@ def get():
                 "title": item.title,
                 "price": item.price,
                 "thumbnail": item.thumbnail,
+                "category": item.category,
             }
         )
 
